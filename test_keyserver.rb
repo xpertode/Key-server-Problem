@@ -1,6 +1,7 @@
 require_relative 'keyserver'
 require 'redis'
 redis = Redis.new
+redis.flushall
 
 describe KeyServer do
   key = nil
@@ -69,10 +70,9 @@ describe KeyServer do
     end
   end
   
-  sleep(70)
-  
   describe '.get' do
     it 'should return the $key' do
+      sleep(70)
       dup_key = KeyServer.get(redis)
       expect(dup_key).to eq(key)
     end
@@ -86,15 +86,16 @@ describe KeyServer do
   
   describe '.keep_alive' do
     it 'should return TTL updated' do
-      expect(KeyServer.keep_alive(redis,key)).to match(/TTL/)
+      expect(KeyServer.keep_alive(redis,key)).to match(/kept alive/)
     end
   end
   
 
-  sleep(3)
+  
   describe '.keep_alive' do
     it 'should return no such key' do
-      expect(KeyServer.keep_alive(redis,key)).to match(/No Such key/)
+      sleep(305)
+      expect(KeyServer.keep_alive(redis,key)).to match(/No such key/)
     end
   end
     
