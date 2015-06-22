@@ -68,11 +68,9 @@ end
 
 
 class KeyServer
-  
-  
-	def self.generate(redis)
+  def self.generate(redis)
     #Generate a random key
-	  rand_key = SecureRandom.hex(20)
+    rand_key = SecureRandom.hex(20)
     #Add key to set of free keys
     redis.sadd('UNBLOCKED',rand_key)
     #Set value and expiry time
