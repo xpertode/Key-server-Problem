@@ -104,6 +104,9 @@ class KeyServer
        def self.delete(redis,key)
            if redis.exists(key)
                 if redis.del(key)==1
+                    if redis.sismember('UNBLOCKED',key)==1
+                        redis.srem('UNBLOCKED',key)
+                    end
                    return "Key deleted successfully."
                 else
                    return "key can't be deleted."
