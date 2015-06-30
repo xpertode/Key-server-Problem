@@ -47,7 +47,7 @@ class Keys
     #Returns nil if 404
     def get(redis)
       key = self.get_available_key(redis)
-      unless redis.exists(key)
+      until redis.exists(key) do
         key = self.get_available_key(redis)
       end
       if not key.nil?
