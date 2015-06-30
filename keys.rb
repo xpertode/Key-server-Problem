@@ -47,7 +47,8 @@ class Keys
     #Returns nil if 404
     def get(redis)
       key = self.get_available_key(redis)
-      until redis.exists(key) do
+      while redis.exists(key)==nil do
+        puts "Key expired......"
         key = self.get_available_key(redis)
       end
       if not key.nil?
